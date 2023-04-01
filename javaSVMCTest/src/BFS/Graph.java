@@ -1,0 +1,82 @@
+package BFS;
+import java.util.*;
+
+public class Graph {
+    private int V;
+    private LinkedList<Integer>[] adj;
+
+    public Graph(int v) {
+        V = v;
+        adj = new LinkedList[V];
+        for (int i = 0; i < V; i++) {
+            adj[i] = new LinkedList<Integer>();
+        }
+    }
+
+    public void addEdge(int u, int v) {
+        adj[u].add(v);
+        adj[v].add(u);
+    }
+
+    public List<Integer> getCycle() {
+        boolean[] visited = new boolean[V];
+        int[] parent = new int[V];
+        Arrays.fill(parent, -1);
+        int cycleStart = -1;
+        int cycleEnd = -1;
+
+        for (int i = 0; i < V; i++) {
+            if (!visited[i] && dfs(i, visited, parent, cycleStart, cycleEnd)) {
+                break;
+            }
+        }
+
+        if (cycleStart == -1) {
+            return Collections.emptyList();
+        }
+
+        List<Integer> cycle = new ArrayList<>();
+        for (int i = cycleEnd; i != cycleStart; i = parent[i]) {
+            cycle.add(i);
+        }
+        cycle.add(cycleStart);
+        Collections.reverse(cycle);
+        return cycle;
+    }
+
+    private boolean dfs(int u, boolean[] visited, int[] parent, int cycleStart, int cycleEnd) {
+        visited[u] = true;
+
+        for (int v : adj[u]) {
+            if (!visited[v]) {
+                parent[v] = u;
+                if (dfs(v, visited, parent, cycleStart, cycleEnd)) {
+                    return true;
+                }
+            } else if (v != parent[u]) {
+                cycleStart = v;
+                cycleEnd = u;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static void main(String[] args) {
+        Graph g = new Graph(6);
+        g.addEdge(0, 1);
+        g.addEdge(1, 2);
+        g.addEdge(2, 3);
+        g.addEdge(3, 4);
+        g.addEdge(4, 5);
+        g.addEdge(5, 0);
+
+        List<Integer> cycle = g.getCycle();
+        if (!cycle.isEmpty()) {
+            System.out.println("Nodes in cycle: " + cycle);
+        } else {
+            System.out.println("No cycle found");
+        }
+    }
+}

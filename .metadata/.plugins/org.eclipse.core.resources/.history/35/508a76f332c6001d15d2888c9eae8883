@@ -1,0 +1,33 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class Score {
+	static int n=100;
+	static int m=100;
+	static int count=0;
+	static boolean isSafe(int[][]arr, int x,int y,int pre,int sum,int target) {
+		return(x>=0&&x<n&&y>=0&&y<m&&arr[x][y]>=pre);
+	}
+	static boolean count(int x,int y,int pre) {
+		for(int j=0;j<m;j++) {
+			
+		}
+	}
+	public static void main(String[] args) throws FileNotFoundException {
+		// TODO Auto-generated method stub
+		System.setIn(new FileInputStream("testStar.txt"));
+		Scanner sc=new Scanner(System.in);
+		n=sc.nextInt();
+		m=sc.nextInt();
+		int score=sc.nextInt();
+		int[][] arr=new int[3][4];
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<m;j++) {
+				arr[i][j]=sc.nextInt();
+			}
+		}
+
+	}
+
+}

@@ -1,0 +1,20 @@
+import java.io.FileInputStream;
+import java.util.Scanner;
+
+public class Score {
+	static int n=100;
+	static int m=100;
+	static boolean isSafe(int x,int y) {
+		return(x>=0&&x<n&&y>=0&&y<m);
+	}
+	static boolean solve() {
+		return true;
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		System.setIn(new FileInputStream("testStar.txt"));
+		Scanner sc=new Scanner(System.in);
+
+	}
+
+}

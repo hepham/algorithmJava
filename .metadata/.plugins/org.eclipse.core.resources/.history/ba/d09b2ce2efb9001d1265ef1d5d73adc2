@@ -1,0 +1,65 @@
+package javaSVMCTest;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class Anagrams {
+	public List<Integer> findAnagrams(String s, String p) {
+        int[] charsInP = new int[26];
+        calculateFreq(p, charsInP);
+        int len1, len2;
+        len1 = s.length();
+        len2 = p.length();
+        List<Integer> res = new ArrayList<>();
+        for(int i=0; i<len1 && i+len2<=len1; i++){
+            String subs = s.substring(i, i+len2);
+            int[] charsInSubs = new int[26];
+            calculateFreq(subs, charsInSubs);
+            if(equalFreq(charsInP, charsInSubs)){
+                res.add(i);
+            }
+        }
+        return res;
+    }
+    
+    private void calculateFreq(String s, int[] chars){
+        for(char ch : s.toCharArray()){
+            chars[ch-'a']++;
+        }
+    }
+    private boolean equalFreq(int[] chars1, int[] chars2){
+        for(int i=0; i<26; i++){
+            if(chars1[i]!=chars2[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+ public static void main(String[] args) {
+	 File test=new File("./test.txt");
+	 Anagrams anagrams=new Anagrams();
+	 try {
+		Scanner sc=new Scanner(test);
+		int testnumber=sc.nextInt();
+		sc.nextLine();
+		for(int i=0;i<testnumber;i++) {
+			String line=sc.nextLine();
+			String[] split=line.split(" ");
+			System.out.println(split[0]);
+			System.out.println(split[1]);
+			List<Integer> result=anagrams.findAnagrams(split[0], split[1]);
+			System.out.print("# ");
+			for(int j=0;j<result.size();j++) {
+				System.out.print(result.get(i)+" ");
+			}
+			System.out.println(" ");
+		}
+	} catch (FileNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+ }
+}

@@ -1,0 +1,44 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class Score {
+	static int n=100;
+	static int m=100;
+	static int count=0;
+	static boolean isSafe(int[][]arr, int x,int y,int pre) {
+		return(x>=0&&x<n&&y>=0&&y<m&&arr[x][y]>=pre);
+	}
+	static void count(int[][]arr,int x,int y,int pre,int target) {
+		for(int j=0;j<m;j++) {
+			if(isSafe(arr, x+1, y+j, pre)) {
+				System.out.println("toa do "+x+" "+y+": "+arr[x][y]);
+				target=target-arr[x+1][y+j];
+				x=x+1;
+				y=y+j;
+				pre=arr[y+j][x+1];
+				if(target<0)return;
+				if(target==0&&x==n-1&&y==m-1) {
+					count=count+1;
+				}else count(arr,x,y,pre,target);
+			}
+		}
+	}
+	public static void main(String[] args) throws FileNotFoundException {
+		// TODO Auto-generated method stub
+		System.setIn(new FileInputStream("testStar.txt"));
+		Scanner sc=new Scanner(System.in);
+		n=sc.nextInt();
+		m=sc.nextInt();
+		int score=sc.nextInt();
+		int[][] arr=new int[3][4];
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<m;j++) {
+				arr[i][j]=sc.nextInt();
+			}
+		}
+		count(arr,0,0,0,score);
+		System.out.println(count);
+	}
+
+}
